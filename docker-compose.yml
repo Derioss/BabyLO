@@ -1,0 +1,12 @@
+version: "2"
+services:
+  app:
+    image: germanium/babylo
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root    
