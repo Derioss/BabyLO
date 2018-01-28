@@ -1,74 +1,71 @@
 # BabyLO
 
-BabyLO est une application web permettant de réaliser des statistiques sur des parties de baby-foot.
-L'application est basée sur Symfony2.
-Les librairies utilisées sont :
-- Bootstrap 3
-- HighCharts
-- jQuery
-- Chosen
-- Pickadate.js
+BabyLO is a web-based application for statistics on table football games.
+The application is based on Symfony2.
+The bookstores used are:
+
+* Bootstrap 3
+* HighCharts
+* jQuery
+* Chosen
+* Pickadate.js
 
 ### Screenshots
 
-Accueil  
+Home  
 ![alt tag](http://i.imgur.com/W1fjD1il.png)
 
-Statistiques avancées  
+Advanced Statistics
 ![alt tag](http://i.imgur.com/Ya76QHHl.png)
 
-Formulaire d'ajout de partie  
+Party management
 ![alt tag](http://i.imgur.com/Io23umVl.png)
 
-## Procédure d'installation
+## Installation
 
-La procédure a été testé et fonctionne sur un Ubuntu 13.10 avec une installation standard de LAMP.
-
-```bash
-sudo apt-get install apache2 php5 mysql-server libapache2-mod-php5 php5-mysql
-```
-
-Récupération du code
 ```bash
 git clone https://github.com/whoknows/BabyLO.git
 ```
 
-Configurer vos paramètres de base de données dans le fichier app/config/parameters.yml
+A docker image exists to launch the application:
+
+### Run the application in a standalone container
+
+The application need a mysql server in order to work properly.
 
 ```bash
-parameters:
-    database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: '3306'
-    database_name: baby
-    database_user: root
-    database_password: secret
+sudo docker run --name=db -e MYSQL_ROOT_PASSWORD=root -d mysql
+# initialise database (only on first lauch)
+sudo docker run --name=web --link=db --rm germanium/babylo init
+
+sudo docker run -v 80:80 --link=db -d germanium/babylo
 ```
 
-Installation du projet
+### With docker-compose
+
+The example configuration can be found in docker-compose.yml and run by the following command
+
+```bash
+sudo docker-composer up -d
+```
+
+### Build the dev image
+
 ```bash
 cd BabyLO/
-mkdir app/cache/ && chmod 777 -R app/cache/
-mkdir app/logs/ && chmod 777 -R app/logs/
-composer update
-php app/console doctrine:database:create
-php app/console doctrine:schema:update --force
-php app/console doctrine:fixtures:load
+sudo docker build -t babylo .
+sudo docker run -v 80:80 babylo
 ```
 
-### Accès à l'application
+### Default Admin credentials
 
-http://localhost/BabyLO/web/app.php
+* login : admin
+* password : secret
 
-### Identifiants admin
+### Public / Private mode
 
-- login : admin
-- password : secret
-
-### Mode public / privé
-
-Par défaut l'application est en mode privé, c'est à dire qu'il faut obligatoirement être authentifié pour y accéder.
-Il est possible de la rendre publique (hors parties admin) en commentant la ligne 40 du fichier app/config/security.yml :
+By default the application is in private mode, i. e. you must be authenticated to access it.
+It is possible to make it public (excluding admin parts) by commenting line 40 of the app/config/security. yml file:
 
 ```bash
 - { path: ^/.*, roles: [IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED] }

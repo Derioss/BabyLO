@@ -28,6 +28,7 @@ class SuperAdmin implements FixtureInterface
 		$userAdmin = new User();
 		$userAdmin->setUsername('admin');
 		$userAdmin->setSalt('');
+		$userAdmin->setEmail('test');
 		$userAdmin->setPassword(hash('sha512', 'secret'));
 		$userAdmin->setPosition('');
 		$userAdmin->setEnabled(0);
