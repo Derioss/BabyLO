@@ -27,7 +27,7 @@ Party management
 ## Installation
 
 ```bash
-git clone https://github.com/whoknows/BabyLO.git
+git clone https://github.com/Derioss/BabyLO
 ```
 
 A docker image exists to launch the application:
