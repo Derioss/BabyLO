@@ -1,5 +1,8 @@
 # BabyLO
 
+code by https://github.com/whoknows/BabyLO
+update docker https://github.com/whoknows/BabyLO
+
 BabyLO is a web-based application for statistics on table football games.
 The application is based on Symfony2.
 The bookstores used are:
@@ -46,7 +49,11 @@ sudo docker run -v 80:80 --link=db -d germanium/babylo
 The example configuration can be found in docker-compose.yml and run by the following command
 
 ```bash
-sudo docker-composer up -d
+sudo docker-composer up -d (sudo or not sudo depending on your permissions)
+docker exec babylo php /app/app/console doctrine:database:create
+docker exec babylo php /app/app/console doctrine:schema:update --force
+docker exec babylo php /app/app/console doctrine:fixtures:load
+curl http://localhost
 ```
 
 ### Build the dev image

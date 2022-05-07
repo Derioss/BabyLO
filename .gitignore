@@ -6,3 +6,4 @@ composer.lock
 .htaccess
 /nbproject
 /.idea
+/database_data
